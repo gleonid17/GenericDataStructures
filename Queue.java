@@ -11,7 +11,7 @@ public class Queue <E extends Comparable> {
     private int currentlyStored;
     private int capacity;
 
-    /***
+    /**
      * This method is the constructor of the Queue
      * 
      * It initializes the capacity of the Queue with the capacity parameter
@@ -25,7 +25,7 @@ public class Queue <E extends Comparable> {
         this.array = (E[]) new Object[this.capacity];
     }
 
-    /***
+    /**
      * This method checks if the Queue is empty
      * Time Complexity: O(1)
      * 
@@ -45,7 +45,7 @@ public class Queue <E extends Comparable> {
         return this.currentlyStored == this.capacity;
     }
 
-    /***
+    /**
      * This method inserts an element to the Queue and if it can't, throws exception
      * Time Complexity: O(1)
      * 
@@ -61,7 +61,7 @@ public class Queue <E extends Comparable> {
         this.array[this.currentlyStored++] = element;
     }
 
-    /***
+    /**
      * This method inserts an element to the Queue and if it can't, returns false
      * Time Complexity: O(1)
      * 
@@ -75,11 +75,12 @@ public class Queue <E extends Comparable> {
         return true;
     }
 
-    //Time Complexity: O(n)
-    /***
-     * This method 
-     * @return
-     * @throws NoSuchElementException
+    /**
+     * This method removes the head from the Queue and if it can't, throws exception
+     * Time Complexity: O(n)
+     * 
+     * @return the head of the Queue
+     * @throws NoSuchElementException if the Queue is empty and there's no head to dequeue
      */
     public E dequeue() throws NoSuchElementException{
         if (isEmpty())
@@ -93,7 +94,12 @@ public class Queue <E extends Comparable> {
         return head;
     }
 
-    //Time Complexity: O(1)
+    /**
+     * This method removes the head from the Queue and if it can't, returns null
+     * Time Complexity: O(n)
+     * 
+     * @return The head of the Queue or null if the Queue is empty
+     */
     public E poll() {
         if (isEmpty())
             return null;
@@ -106,17 +112,65 @@ public class Queue <E extends Comparable> {
         return head;
     }
     
-    //Time Complexity: O(1)
+    /**
+     * This method returns the head of the Queue and if it can't, throws exception
+     * Time Complexity: O(1)
+     * 
+     * @return the head of the Queue
+     * @throws NoSuchElementException  if the Queue is empty and there's no head to return
+     */
     public E element() throws NoSuchElementException {
         if (isEmpty())
             throw new NoSuchElementException("Can't return element because Queue is empty");
         return this.array[0];
     }
 
-    //Time Complexity: O(1)
-    public E peek(){ 
+    /**
+     * This method returns the head of the Queue and if it can't, returns null
+     * Time Complexity: O(1)
+     * 
+     * @return The head of the Queue or null if the Queue is empty
+     */
+    public E peek() {
         if (isEmpty())
             return null;
         return this.array[0];
+    }
+
+    /**
+     * This method inserts an element to the Queue and if it can't, throws exception
+     * Time Complexity: O(n)
+     * 
+     * @param element The element to be inserted
+     * @throws IllegalStateException If the Queue is full
+     * @throws IllegalArgumentException If the element to be added is null
+     */
+    public void insertSorted(E element) throws IllegalStateException, IllegalArgumentException {
+        if (element == null)
+            throw new IllegalArgumentException("Cannot enqueue the element as it's null");
+        if (isFull())
+            throw new IllegalStateException(
+                    "Cannot enqueue " + element + " because the queue only has a capacity of " + this.capacity);
+        int position = -1;
+        for (int i = 0; i < this.currentlyStored - 1; i++) {
+            if (this.array[i].compareTo(element) < 0 && this.array[i + 1].compareTo(element) > 0)
+                position = i;
+            else if (this.array[0].compareTo(element) < 0)
+                position = 0;
+            else if (this.array[this.currentlyStored].compareTo(element) > 0)
+                position = this.currentlyStored;
+        }
+        for (int i = this.currentlyStored; i > position; i--) {
+            this.array[i + 1] = this.array[i];
+        }
+        this.array[position] = element;
+    }
+    
+    public void sortQueue() {
+        Queue<E> q = new Queue(this.currentlyStored);
+        for (int i = 0; i < this.currentlyStored; i++) {
+            q.enqueue(this.array[i]);
+        }
+        
     }
 }
