@@ -6,10 +6,12 @@
  */
 import java.util.NoSuchElementException;
 
-public class Queue <E extends Comparable> {
+public class Queue <E extends Comparable<E>> {
     private E[] array;
     private int currentlyStored;
     private int capacity;
+    private int front;
+    private int tail;
 
     /**
      * This method is the constructor of the Queue
@@ -41,8 +43,17 @@ public class Queue <E extends Comparable> {
      * 
      * @return true if the Queue is full
      */
-    private boolean isFull(){
+    private boolean isFull() {
         return this.currentlyStored == this.capacity;
+    }
+    
+    /**
+     * This method returns how many elements are in the queue
+     * 
+     * @return The number of elements in the queue
+     */
+    public int getSize() {
+        return this.currentlyStored;
     }
 
     /**
@@ -87,7 +98,7 @@ public class Queue <E extends Comparable> {
             throw new NoSuchElementException("Cannot dequeue front element as the queue is Empty");
         E head = this.array[0];
         this.array[0] = null;
-        for (int i = 1; i < this.currentlyStored + 1; i++) {
+        for (int i = 1; i < this.currentlyStored; i++) {
             this.array[i-1] = this.array[i];
         }
         this.currentlyStored--;
@@ -105,8 +116,8 @@ public class Queue <E extends Comparable> {
             return null;
         E head = this.array[0];
         this.array[0] = null;
-        for (int i = 0; i < this.currentlyStored + 1; i++) {
-            this.array[i + 1] = this.array[i];
+        for (int i = 1; i < this.currentlyStored; i++) {
+            this.array[i - 1] = this.array[i];
         }
         this.currentlyStored--;
         return head;
@@ -149,28 +160,34 @@ public class Queue <E extends Comparable> {
         if (element == null)
             throw new IllegalArgumentException("Cannot enqueue the element as it's null");
         if (isFull())
-            throw new IllegalStateException(
-                    "Cannot enqueue " + element + " because the queue only has a capacity of " + this.capacity);
-        int position = -1;
-        for (int i = 0; i < this.currentlyStored - 1; i++) {
-            if (this.array[i].compareTo(element) < 0 && this.array[i + 1].compareTo(element) > 0)
+            throw new IllegalStateException("Cannot enqueue " + element + " because the queue only has a capacity of " + this.capacity);
+        int position = this.currentlyStored;
+        for (int i = 0; i < this.currentlyStored; i++) {
+            if (this.array[i].compareTo(element) > 0) {
                 position = i;
-            else if (this.array[0].compareTo(element) < 0)
-                position = 0;
-            else if (this.array[this.currentlyStored].compareTo(element) > 0)
-                position = this.currentlyStored;
+                break;
+            }
         }
         for (int i = this.currentlyStored; i > position; i--) {
-            this.array[i + 1] = this.array[i];
+            this.array[i] = this.array[i - 1];
         }
         this.array[position] = element;
+        this.currentlyStored++;
     }
     
-    public void sortQueue() {
-        Queue<E> q = new Queue(this.currentlyStored);
-        for (int i = 0; i < this.currentlyStored; i++) {
-            q.enqueue(this.array[i]);
+    /**
+     * This method sorts the queue if it's not already sorted
+     * Time Complexity: O(n^2)
+     */
+    public void sortQueue() throws IllegalStateException {
+        if (isEmpty())
+            throw new IllegalStateException("Cannot sort queue as it's empty");
+        Queue<E> q = new Queue<E>(this.currentlyStored);
+        int stored = this.currentlyStored;
+        for (int i = 0; i < stored; i++) {
+            q.insertSorted(this.array[i]);
         }
-        
+        for (int i = 0; i < this.currentlyStored; i++)
+            this.array[i] = q.dequeue();
     }
 }
