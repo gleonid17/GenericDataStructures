@@ -6,22 +6,21 @@
  */
 import java.util.NoSuchElementException;
 
-public class Queue <E extends Comparable<E>> {
+public class CircularQueue <E extends Comparable<E>> {
     private E[] array;
     private int currentlyStored;
     private int capacity;
     private int front;
-    private int tail;
 
     /**
-     * This method is the constructor of the Queue
-     * 
      * It initializes the capacity of the Queue with the capacity parameter
      * Time Complexity: O(1)
+     * Space Complexity: O(n)
      * 
      * @param capacity
      */
-    public Queue(int capacity){
+    public CircularQueue(int capacity) {
+        this.front = 0;
         this.currentlyStored = 0;
         this.capacity = capacity;
         this.array = (E[]) new Object[this.capacity];
@@ -30,25 +29,29 @@ public class Queue <E extends Comparable<E>> {
     /**
      * This method checks if the Queue is empty
      * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @return true if the Queue is empty
      */
-    private boolean isEmpty(){ 
+    public boolean isEmpty(){ 
         return this.currentlyStored == 0;
     }
 
     /***
      * This method checks if the Queue is Full
      * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @return true if the Queue is full
      */
-    private boolean isFull() {
+    public boolean isFull() {
         return this.currentlyStored == this.capacity;
     }
     
     /**
      * This method returns how many elements are in the queue
+     * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @return The number of elements in the queue
      */
@@ -59,6 +62,7 @@ public class Queue <E extends Comparable<E>> {
     /**
      * This method inserts an element to the Queue and if it can't, throws exception
      * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @param element The element to be inserted
      * @throws IllegalStateException if the Queue is Full
@@ -69,12 +73,15 @@ public class Queue <E extends Comparable<E>> {
             throw new IllegalArgumentException("Cannot enqueue the element as it's null");
         if (isFull())
             throw new IllegalStateException("Cannot enqueue " + element + " because the queue only has a capacity of " + this.capacity);
-        this.array[this.currentlyStored++] = element;
+        int rear = (this.front + this.currentlyStored) % this.capacity;
+        this.array[rear] = element;
+        this.currentlyStored++;
     }
 
     /**
      * This method inserts an element to the Queue and if it can't, returns false
      * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @param element The element to be inserted 
      * @return false if the element can't be inserted
@@ -82,13 +89,16 @@ public class Queue <E extends Comparable<E>> {
     public boolean offer(E element) {
         if (isFull() || element == null)
             return false;
-        this.array[this.currentlyStored++] = element;
+        int rear = (this.currentlyStored + this.front) % this.capacity;
+        this.array[rear] = element;
+        this.currentlyStored++;
         return true;
     }
 
     /**
      * This method removes the head from the Queue and if it can't, throws exception
-     * Time Complexity: O(n)
+     * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @return the head of the Queue
      * @throws NoSuchElementException if the Queue is empty and there's no head to dequeue
@@ -96,29 +106,26 @@ public class Queue <E extends Comparable<E>> {
     public E dequeue() throws NoSuchElementException{
         if (isEmpty())
             throw new NoSuchElementException("Cannot dequeue front element as the queue is Empty");
-        E head = this.array[0];
-        this.array[0] = null;
-        for (int i = 1; i < this.currentlyStored; i++) {
-            this.array[i-1] = this.array[i];
-        }
+        E head = this.array[this.front];
+        this.array[this.front] = null;
+        this.front = (this.front + 1) % this.capacity;
         this.currentlyStored--;
         return head;
     }
 
     /**
      * This method removes the head from the Queue and if it can't, returns null
-     * Time Complexity: O(n)
+     * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @return The head of the Queue or null if the Queue is empty
      */
     public E poll() {
         if (isEmpty())
             return null;
-        E head = this.array[0];
-        this.array[0] = null;
-        for (int i = 1; i < this.currentlyStored; i++) {
-            this.array[i - 1] = this.array[i];
-        }
+        E head = this.array[this.front];
+        this.array[this.front] = null;
+        this.front = (this.front + 1) % this.capacity;
         this.currentlyStored--;
         return head;
     }
@@ -126,6 +133,7 @@ public class Queue <E extends Comparable<E>> {
     /**
      * This method returns the head of the Queue and if it can't, throws exception
      * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @return the head of the Queue
      * @throws NoSuchElementException  if the Queue is empty and there's no head to return
@@ -133,24 +141,39 @@ public class Queue <E extends Comparable<E>> {
     public E element() throws NoSuchElementException {
         if (isEmpty())
             throw new NoSuchElementException("Can't return element because Queue is empty");
-        return this.array[0];
+        return this.array[this.front];
     }
 
     /**
      * This method returns the head of the Queue and if it can't, returns null
      * Time Complexity: O(1)
+     * Space Complexity: O(1)
      * 
      * @return The head of the Queue or null if the Queue is empty
      */
     public E peek() {
         if (isEmpty())
             return null;
-        return this.array[0];
+        return this.array[this.front];
+    }
+
+    /**
+     * This method returns the rear element of the Queue
+     * Time Complexity: O(1)
+     * Space Complexity: O(1)
+     * 
+     * @return the rear element of the Queue or null if the Queue is empty
+     */
+    public E rear() {
+        if (isEmpty()) 
+            return null;
+        return this.array[(this.front + this.currentlyStored - 1) % this.capacity];
     }
 
     /**
      * This method inserts an element to the Queue and if it can't, throws exception
      * Time Complexity: O(n)
+     * Space Complexity: O(1)
      * 
      * @param element The element to be inserted
      * @throws IllegalStateException If the Queue is full
@@ -161,33 +184,36 @@ public class Queue <E extends Comparable<E>> {
             throw new IllegalArgumentException("Cannot enqueue the element as it's null");
         if (isFull())
             throw new IllegalStateException("Cannot enqueue " + element + " because the queue only has a capacity of " + this.capacity);
-        int position = this.currentlyStored;
-        for (int i = 0; i < this.currentlyStored; i++) {
-            if (this.array[i].compareTo(element) > 0) {
-                position = i;
+        int position = 0;
+        while (position < this.currentlyStored) {
+            int index = (this.front + position) % this.capacity;
+            if(this.array[index].compareTo(element) > 0)
                 break;
-            }
+            position++;
         }
         for (int i = this.currentlyStored; i > position; i--) {
-            this.array[i] = this.array[i - 1];
+            int current = (this.front + i) % this.capacity;
+            int previous = (this.front + i - 1) % this.capacity;
+            this.array[current] = this.array[previous];
         }
-        this.array[position] = element;
+        int target = (this.front + position) % this.capacity;
+        this.array[target] = element;
         this.currentlyStored++;
     }
     
     /**
      * This method sorts the queue if it's not already sorted
      * Time Complexity: O(n^2)
+     * Space Complexity: O(n)
      */
     public void sortQueue() throws IllegalStateException {
         if (isEmpty())
             throw new IllegalStateException("Cannot sort queue as it's empty");
-        Queue<E> q = new Queue<E>(this.currentlyStored);
+        CircularQueue<E> q = new CircularQueue<E>(this.currentlyStored);
         int stored = this.currentlyStored;
-        for (int i = 0; i < stored; i++) {
-            q.insertSorted(this.array[i]);
-        }
-        for (int i = 0; i < this.currentlyStored; i++)
-            this.array[i] = q.dequeue();
+        for (int i = 0; i < stored; i++) 
+            q.insertSorted(this.dequeue());
+        while(!q.isEmpty())
+            this.enqueue(q.dequeue());
     }
 }
