@@ -60,6 +60,16 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
+     * This method clears the queue
+     * Time Complexity: O(n)
+     * Space Complexity: O(1)
+     */
+    public void clear() {
+        while (this.currentlyStored > 0)
+            this.dequeue();
+    }
+
+    /**
      * This method inserts an element to the Queue and if it can't, throws exception
      * Time Complexity: O(1)
      * Space Complexity: O(1)
