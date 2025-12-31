@@ -23,7 +23,9 @@ public class CircularQueue <E extends Comparable<E>> {
         this.front = 0;
         this.currentlyStored = 0;
         this.capacity = capacity;
-        this.array = (E[]) new Object[this.capacity];
+        @SuppressWarnings("unchecked")
+        E[] temp = (E[]) new Object[this.capacity];
+        this.array = temp;
     }
 
     /**
@@ -221,9 +223,31 @@ public class CircularQueue <E extends Comparable<E>> {
             throw new IllegalStateException("Cannot sort queue as it's empty");
         CircularQueue<E> q = new CircularQueue<E>(this.currentlyStored);
         int stored = this.currentlyStored;
-        for (int i = 0; i < stored; i++) 
+        for (int i = 0; i < stored; i++)
             q.insertSorted(this.dequeue());
-        while(!q.isEmpty())
+        while (!q.isEmpty())
             this.enqueue(q.dequeue());
+    }
+    
+    /**
+     * This method returns the Queue as a String
+     * Time Complexity: O(n)
+     * Space Complexity: O(n)
+     */
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        if (isEmpty()) {
+            return "( )";
+        }
+        int position = 0;
+        str.append("( ");
+        int stored = this.currentlyStored;
+        while (stored > 1) {
+            str.append(this.array[(position + this.front) % this.capacity] + " ");
+            position++;
+            stored--;
+        }
+        str.append(this.array[(this.front + this.currentlyStored - 1) % this.capacity] + " )");
+        return str.toString();
     }
 }
