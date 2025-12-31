@@ -243,7 +243,7 @@ public class CircularQueue <E extends Comparable<E>> {
         str.append("( ");
         int stored = this.currentlyStored;
         while (stored > 1) {
-            str.append(this.array[(position + this.front) % this.capacity] + " ");
+            str.append(this.array[(position + this.front) % this.capacity] + " ,");
             position++;
             stored--;
         }
