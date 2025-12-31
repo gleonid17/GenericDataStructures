@@ -13,8 +13,8 @@ public class CircularQueue <E extends Comparable<E>> {
     private int front;
 
     /**
-     * It initializes the capacity of the Queue with the capacity parameter
-     * Time Complexity: O(1)
+     * It initializes the capacity of the Queue with the capacity parameter<p>
+     * Time Complexity: O(1) <p>
      * Space Complexity: O(n)
      * 
      * @param capacity
@@ -29,8 +29,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method checks if the Queue is empty
-     * Time Complexity: O(1)
+     * This method checks if the Queue is empty<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @return true if the Queue is empty
@@ -40,8 +40,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /***
-     * This method checks if the Queue is Full
-     * Time Complexity: O(1)
+     * This method checks if the Queue is Full<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @return true if the Queue is full
@@ -51,8 +51,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
     
     /**
-     * This method returns how many elements are in the queue
-     * Time Complexity: O(1)
+     * This method returns how many elements are in the queue<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @return The number of elements in the queue
@@ -62,8 +62,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method clears the queue
-     * Time Complexity: O(n)
+     * This method clears the queue<p>
+     * Time Complexity: O(n)<p>
      * Space Complexity: O(1)
      */
     public void clear() {
@@ -72,8 +72,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method inserts an element to the Queue and if it can't, throws exception
-     * Time Complexity: O(1)
+     * This method inserts an element to the Queue and if it can't, throws exception<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @param element The element to be inserted
@@ -91,8 +91,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method inserts an element to the Queue and if it can't, returns false
-     * Time Complexity: O(1)
+     * This method inserts an element to the Queue and if it can't, returns false<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @param element The element to be inserted 
@@ -108,8 +108,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method removes the head from the Queue and if it can't, throws exception
-     * Time Complexity: O(1)
+     * This method removes the head from the Queue and if it can't, throws exception<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @return the head of the Queue
@@ -126,8 +126,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method removes the head from the Queue and if it can't, returns null
-     * Time Complexity: O(1)
+     * This method removes the head from the Queue and if it can't, returns null<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @return The head of the Queue or null if the Queue is empty
@@ -143,8 +143,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
     
     /**
-     * This method returns the head of the Queue and if it can't, throws exception
-     * Time Complexity: O(1)
+     * This method returns the head of the Queue and if it can't, throws exception<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @return the head of the Queue
@@ -157,8 +157,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method returns the head of the Queue and if it can't, returns null
-     * Time Complexity: O(1)
+     * This method returns the head of the Queue and if it can't, returns null<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @return The head of the Queue or null if the Queue is empty
@@ -170,8 +170,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method returns the rear element of the Queue
-     * Time Complexity: O(1)
+     * This method returns the rear element of the Queue<p>
+     * Time Complexity: O(1)<p>
      * Space Complexity: O(1)
      * 
      * @return the rear element of the Queue or null if the Queue is empty
@@ -183,8 +183,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
-     * This method inserts an element to the Queue and if it can't, throws exception
-     * Time Complexity: O(n)
+     * This method inserts an element to the Queue and if it can't, throws exception<p>
+     * Time Complexity: O(n)<p>
      * Space Complexity: O(1)
      * 
      * @param element The element to be inserted
@@ -214,8 +214,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
     
     /**
-     * This method sorts the queue if it's not already sorted
-     * Time Complexity: O(n^2)
+     * This method sorts the queue if it's not already sorted<p>
+     * Time Complexity: O(n^2)<p>
      * Space Complexity: O(n)
      */
     public void sortQueue() throws IllegalStateException {
@@ -230,8 +230,8 @@ public class CircularQueue <E extends Comparable<E>> {
     }
     
     /**
-     * This method returns the Queue as a String
-     * Time Complexity: O(n)
+     * This method returns the Queue as a String<p>
+     * Time Complexity: O(n)<p>
      * Space Complexity: O(n)
      */
     public String toString() {
