@@ -7,7 +7,7 @@
 import java.util.NoSuchElementException;
 
 public class CircularQueue <E extends Comparable<E>> {
-    private E[] array;
+    private Object[] array;
     private int currentlyStored;
     private int capacity;
     private int front;
@@ -23,9 +23,8 @@ public class CircularQueue <E extends Comparable<E>> {
         this.front = 0;
         this.currentlyStored = 0;
         this.capacity = capacity;
-        @SuppressWarnings("unchecked")
-        E[] temp = (E[]) new Object[this.capacity];
-        this.array = temp;
+        Object[] array = new Object[this.capacity];
+        this.array = array;
     }
 
     /**
@@ -118,7 +117,8 @@ public class CircularQueue <E extends Comparable<E>> {
     public E dequeue() throws NoSuchElementException{
         if (isEmpty())
             throw new NoSuchElementException("Cannot dequeue front element as the queue is Empty");
-        E head = this.array[this.front];
+        @SuppressWarnings("unchecked")
+        E head = (E) this.array[this.front];
         this.array[this.front] = null;
         this.front = (this.front + 1) % this.capacity;
         this.currentlyStored--;
@@ -135,7 +135,8 @@ public class CircularQueue <E extends Comparable<E>> {
     public E poll() {
         if (isEmpty())
             return null;
-        E head = this.array[this.front];
+        @SuppressWarnings("unchecked")
+        E head = (E) this.array[this.front];
         this.array[this.front] = null;
         this.front = (this.front + 1) % this.capacity;
         this.currentlyStored--;
@@ -153,7 +154,9 @@ public class CircularQueue <E extends Comparable<E>> {
     public E element() throws NoSuchElementException {
         if (isEmpty())
             throw new NoSuchElementException("Can't return element because Queue is empty");
-        return this.array[this.front];
+        @SuppressWarnings("unchecked")
+        E element = (E) this.array[this.front];
+        return element;
     }
 
     /**
@@ -166,7 +169,9 @@ public class CircularQueue <E extends Comparable<E>> {
     public E peek() {
         if (isEmpty())
             return null;
-        return this.array[this.front];
+        @SuppressWarnings("unchecked")
+        E element = (E) this.array[this.front];
+        return element;
     }
 
     /**
@@ -177,9 +182,29 @@ public class CircularQueue <E extends Comparable<E>> {
      * @return the rear element of the Queue or null if the Queue is empty
      */
     public E rear() {
-        if (isEmpty()) 
+        if (isEmpty())
             return null;
-        return this.array[(this.front + this.currentlyStored - 1) % this.capacity];
+        int index = (this.front + this.currentlyStored - 1) % this.capacity;
+        @SuppressWarnings("unchecked")
+        E element = (E) this.array[index];
+        return element;
+    }
+    
+    /**
+     * This method clones the queue given as a parameter<p>
+     * Time Complexity: O(n)<p>
+     * Space Complexity: O(1)
+     * 
+     * @param q The queue to be cloned
+     * @return The cloned queue
+     */
+    public CircularQueue<E> clone(CircularQueue<E> q) {
+        CircularQueue<E> copy = new CircularQueue<E>(this.capacity);
+        System.arraycopy(this.array, 0, copy.array, 0, this.capacity);
+        copy.capacity = this.capacity;
+        copy.currentlyStored = this.currentlyStored;
+        copy.front = this.front;
+        return copy;
     }
 
     /**
@@ -199,7 +224,9 @@ public class CircularQueue <E extends Comparable<E>> {
         int position = 0;
         while (position < this.currentlyStored) {
             int index = (this.front + position) % this.capacity;
-            if(this.array[index].compareTo(element) > 0)
+            @SuppressWarnings("unchecked")
+            E elementToCompare = (E) this.array[index];
+            if(elementToCompare.compareTo(element) > 0)
                 break;
             position++;
         }
@@ -243,7 +270,7 @@ public class CircularQueue <E extends Comparable<E>> {
         str.append("( ");
         int stored = this.currentlyStored;
         while (stored > 1) {
-            str.append(this.array[(position + this.front) % this.capacity] + " ,");
+            str.append(this.array[(position + this.front) % this.capacity] + " , ");
             position++;
             stored--;
         }

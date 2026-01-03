@@ -15,22 +15,22 @@ public class QueueTester {
         System.out.println("Expected: IllegalArgumentException: Cannot enqueue the element as it's null");
         try {
             q.enqueue(null);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("IllegalArgumentException: " + e.getMessage());
         }
         System.out.println("Expected: false");
         System.out.println(q.offer(null));
         q.enqueue(3);
+        System.out.println(
+                "Expected: IllegalStateException: Cannot enqueue 11 because the queue only has a capacity of 5");
         try {
             q.enqueue(11);
-        }
-        catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {
             System.out.println("IllegalStateException: " + e.getMessage());
         }
         System.out.println("Expected: false");
         System.out.println(q.offer(67));
-        System.out.println("Expected: ( 10 , 1 ,169 , 5 , 3 )");
+        System.out.println("Expected: ( 10 , 1 , 169 , 5 , 3 )");
         System.out.println(q.toString());
         System.out.println("Expected: true");
         System.out.println(q.isFull());
@@ -44,9 +44,8 @@ public class QueueTester {
         System.out.println("Expected: NoSuchElementException: Can't return element because Queue is empty");
         try {
             System.out.println(q.element());
-        }
-        catch (NoSuchElementException e) {
-           System.out.println("NoSuchElementException:" +  e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("NoSuchElementException:" + e.getMessage());
         }
         q.enqueue(69);
         System.out.println("Expected: 69");
@@ -54,8 +53,7 @@ public class QueueTester {
         System.out.println("Expect: NoSuchElementException: Cannot dequeue front element as the queue is Empty");
         try {
             System.out.println(q.dequeue());
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             System.out.println("NoSuchElementException: " + e.getMessage());
         }
         System.out.println("Expected: null");
@@ -91,5 +89,38 @@ public class QueueTester {
         q.sortQueue();
         System.out.println("Expected: (3 , 32 , 47 , 55 , 80)");
         System.out.println(q.toString());
+    }
+    
+    public static <E extends Comparable<E>> void runTest(String testName, CircularQueue<E> q, E[] data) {
+        System.out.println("-----Starting test: " + testName + "-----");        
+        //checking isEmpty()
+        System.out.println("Expected: true");
+        System.out.println(q.isEmpty());
+        q.enqueue(data[0]);
+        System.out.println("Expected: false");
+        //checking is Full
+        System.out.println("Expexted: false");
+        System.out.println(q.isFull());
+        q.dequeue();
+        for (E item : data) {
+            q.enqueue(item);
+        }
+        System.out.println("Expected: true");
+        System.out.println(q.isFull());
+        //checking getSize
+        System.out.println("Expected: " + data.length);
+        System.out.println(q.getSize());
+        q.dequeue();
+        q.dequeue();
+        System.out.println("Expected: " + (data.length - 2));
+        System.out.println(q.getSize());
+        //checking clear
+        q.clear();
+        System.out.println("Expected: ( )");
+        System.out.println(q.toString());
+        //checking enqueue
+        q.enqueue(data[0]);
+        System.out.println("Expected: ( " + data[0] + " )");
+        
     }
 }
