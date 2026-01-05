@@ -61,6 +61,17 @@ public class CircularQueue <E extends Comparable<E>> {
     }
 
     /**
+     * This method returns the capacity of the queue<p>
+     * Time Complexity: O(1) <p>
+     * Space Complexity: O(1)
+     * 
+     * @return The capacity of the queue
+     */
+    public int getCapacity() {
+        return this.capacity;
+    }
+
+    /**
      * This method clears the queue<p>
      * Time Complexity: O(n)<p>
      * Space Complexity: O(1)
@@ -198,7 +209,7 @@ public class CircularQueue <E extends Comparable<E>> {
      * @param q The queue to be cloned
      * @return The cloned queue
      */
-    public CircularQueue<E> clone(CircularQueue<E> q) {
+    public CircularQueue<E> clone() {
         CircularQueue<E> copy = new CircularQueue<E>(this.capacity);
         System.arraycopy(this.array, 0, copy.array, 0, this.capacity);
         copy.capacity = this.capacity;
