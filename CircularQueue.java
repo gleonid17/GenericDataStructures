@@ -2,7 +2,7 @@
  * @author George Leonidou
  * @version 1.0
  * 
- * This class implements a Queue in Java
+ * This class implements a Circular Queue in Java
  */
 import java.util.NoSuchElementException;
 
