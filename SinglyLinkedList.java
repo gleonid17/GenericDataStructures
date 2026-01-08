@@ -1,8 +1,8 @@
-/***
+/**
+ * This class implements a SinglyLinkedList in Java
+ * 
  * @author George Leonidou
  * @version 1.0
- * 
- * This class implements a SinglyLinkedList in Java
  */
 
 import java.util.NoSuchElementException;
@@ -97,8 +97,9 @@ public class SinglyLinkedList<E extends Comparable<E>> {
      * Space Complexity: O(1)
      * 
      * @param data The data to be inserted
+     * @throws IllegalArgumentException if the @param data is null
      */
-    public void insertLast(E data) {
+    public void insertLast(E data) throws IllegalArgumentException{
         if (data == null)
             throw new IllegalArgumentException("Cannot insert null element");
         if (isEmpty()) {
@@ -120,8 +121,9 @@ public class SinglyLinkedList<E extends Comparable<E>> {
      * Space Complexity: O(1)
      * 
      * @param data The data to be inserted
+     * @throws IllegalArgumentException if the @param data is null
      */
-    public void insertSorted(E data) {
+    public void insertSorted(E data) throws IllegalArgumentException{
         if (data == null)
             throw new IllegalArgumentException("Cannot insert null element");
         if (isEmpty() || this.head.data.compareTo(data) > 0) {
@@ -147,8 +149,9 @@ public class SinglyLinkedList<E extends Comparable<E>> {
      * 
      * @param index the index of the element to be removed
      * @return The removed element
+     * @throws NoSuchElementException if the index is out of bounds
      */
-    public E remove(int index) {
+    public E removeIndex(int index) throws NoSuchElementException{
         if (index > this.currentlyStored || index < 0)
             throw new NoSuchElementException("Index out of bounds");
         if (index == 0) {
@@ -172,23 +175,26 @@ public class SinglyLinkedList<E extends Comparable<E>> {
      * Space Complexity: O(1)
      * 
      * @param element The element to be removed
+     * @return true if the element is in the list and false if not
      */
-    public void remove(E element) {
+    public boolean removeElement(E element) {
         if (this.head == null)
-            return;
+            return false;
         if (this.head.data.equals(element)) {
             this.head = this.head.next;
             this.currentlyStored--;
+            return true;
         }
         Node current = this.head;
-        while (current.next.next != null) {
+        while (current.next != null) {
             if (current.next.data.equals(element)) {
                 current.next = current.next.next;
                 this.currentlyStored--;
-                return;
+                return true;
             }
             current = current.next;
         }
+        return false;
     }
 
     /**
@@ -216,8 +222,9 @@ public class SinglyLinkedList<E extends Comparable<E>> {
      * 
      * @param index The index of the element to be returned
      * @return The element at the given index
+     * @throws NoSuchElementException if the index is out of bounds
      */
-    public E get(int index) {
+    public E get(int index) throws NoSuchElementException{
         if (index < 0 || index > this.currentlyStored- 1)
             throw new NoSuchElementException("Index out of bounds");
         Node current = this.head;
@@ -258,24 +265,14 @@ public class SinglyLinkedList<E extends Comparable<E>> {
      */
     public String toString() {
         if (isEmpty())
-            return "( )";
+            return "empty";
         StringBuilder sb = new StringBuilder();
-        sb.append("( ");
         Node current = this.head;
         while (current.next != null) {
-            sb.append(current.data + " , ");
+            sb.append(current.data + " -> ");
             current = current.next;
         }
-        sb.append(current.data + " )");
+        sb.append(current.data + " -> null");
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        SinglyLinkedList<Integer> list = new SinglyLinkedList<Integer>();
-        list.insertLast(5);
-        list.insertLast(3);
-        list.insertLast(8);
-        list.insertSorted(4);
-        System.out.println(list.toString());
     }
 }

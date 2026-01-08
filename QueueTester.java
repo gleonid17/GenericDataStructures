@@ -1,3 +1,10 @@
+/**
+ * A tester class for the CircularQueue class.
+ * 
+ * @author George Leonidou
+ * @version 1.0
+ */
+
 import java.util.NoSuchElementException;
 
 public class QueueTester {
@@ -6,12 +13,15 @@ public class QueueTester {
         Integer[] intData = { 5, 4, 3, 2, 1 };
         Double[] doubleData = { 3.8, 3.5, 2.9, 2.0, 1.7 };
         String[] stringData = { "Distribution", "Combination", "Calendar", "Banana", "Apple" };
+        Character[] charData = { 'E', 'D', 'C', 'B', 'A' };
         CircularQueue<Integer> intQueue = new CircularQueue<Integer>(5);
         CircularQueue<Double> doubleQueue = new CircularQueue<Double>(5);
         CircularQueue<String> stringQueue = new CircularQueue<String>(5);
+        CircularQueue<Character> charQueue = new CircularQueue<Character>(5);
         runTest("Integer Test", intQueue, intData, "( 1 , 2 , 3 , 4 , 5 )");
         runTest("Double Test", doubleQueue, doubleData, "( 1.7 , 2,0 , 2.9 , 3.5 , 3.8 )");
         runTest("String Test", stringQueue, stringData, "( Apple , Banana , Calendar , Combination , Distribution )");
+        runTest("Character test", charQueue, charData, "( A , B , C , D , E )");
     }
 
     public static <E extends Comparable<E>> void runTest(String testName, CircularQueue<E> q, E[] data, String dataToString) {
@@ -44,6 +54,22 @@ public class QueueTester {
         q.dequeue();
         System.out.println();
         System.out.println("Expected: " + (prevSize - 2));
+        System.out.println(q.getSize());
+        System.out.println();
+        System.out.println("Expected: " + (prevSize - 1));
+        q.enqueue(data[0]);
+        System.out.println(q.getSize());
+        System.out.println();
+        q.insertSorted(data[0]);
+        System.out.println("Expected: " + prevSize);
+        System.out.println(q.getSize());
+        System.out.println();
+        q.poll();
+        System.out.println("Expected: " + (prevSize - 1));
+        System.out.println(q.getSize());
+        System.out.println();
+        q.offer(data[0]);
+        System.out.println("Expected: " + prevSize);
         System.out.println(q.getSize());
         //checking clear
         q.clear();

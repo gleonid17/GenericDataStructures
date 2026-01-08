@@ -1,9 +1,11 @@
+
 /***
+ * This class implements a Circular Queue in Java
+ * 
  * @author George Leonidou
  * @version 1.0
- * 
- * This class implements a Circular Queue in Java
  */
+
 import java.util.NoSuchElementException;
 
 public class CircularQueue <E extends Comparable<E>> {
